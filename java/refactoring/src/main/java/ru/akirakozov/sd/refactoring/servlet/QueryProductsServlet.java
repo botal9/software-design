@@ -2,6 +2,7 @@ package ru.akirakozov.sd.refactoring.servlet;
 
 import ru.akirakozov.sd.refactoring.controller.ProductController;
 import ru.akirakozov.sd.refactoring.model.Product;
+import ru.akirakozov.sd.refactoring.servlet.response.QueryProductsResponseBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,7 +13,7 @@ import java.io.IOException;
  */
 public class QueryProductsServlet extends ProductServletBase {
     public QueryProductsServlet(ProductController productController) {
-        super(productController);
+        super(productController, new QueryProductsResponseBuilder());
     }
 
     @Override
@@ -21,42 +22,26 @@ public class QueryProductsServlet extends ProductServletBase {
 
         if ("max".equals(command)) {
             Product product = productController.getProductWithMaxPrice();
-
-            response.getWriter().println("<html><body>");
-            response.getWriter().println("<h1>Product with max price: </h1>");
-            if (product != null) {
-                response.getWriter().println(product.getName() + "\t" + product.getPrice() + "</br>");
-            }
-            response.getWriter().println("</body></html>");
+            getResponseBuilder().buildServletResponse(
+                    response, product, QueryProductsResponseBuilder.QueryType.MAX);
         } else if ("min".equals(command)) {
             Product product = productController.getProductWithMinPrice();
-
-            response.getWriter().println("<html><body>");
-            response.getWriter().println("<h1>Product with min price: </h1>");
-            if (product != null) {
-                response.getWriter().println(product.getName() + "\t" + product.getPrice() + "</br>");
-            }
-            response.getWriter().println("</body></html>");
+            getResponseBuilder().buildServletResponse(
+                    response, product, QueryProductsResponseBuilder.QueryType.MIN);
         } else if ("sum".equals(command)) {
             long summaryPrice = productController.getSummaryPrice();
-
-            response.getWriter().println("<html><body>");
-            response.getWriter().println("Summary price: ");
-            response.getWriter().println(summaryPrice);
-            response.getWriter().println("</body></html>");
+            getResponseBuilder().buildServletResponse(
+                    response, summaryPrice, QueryProductsResponseBuilder.QueryType.SUM);
         } else if ("count".equals(command)) {
             int productsCount = productController.getProductCount();
-
-            response.getWriter().println("<html><body>");
-            response.getWriter().println("Number of products: ");
-            response.getWriter().println(productsCount);
-            response.getWriter().println("</body></html>");
+            getResponseBuilder().buildServletResponse(
+                    response, productsCount, QueryProductsResponseBuilder.QueryType.COUNT);
         } else {
             response.getWriter().println("Unknown command: " + command);
         }
-
-        response.setContentType("text/html");
-        response.setStatus(HttpServletResponse.SC_OK);
     }
 
+    private QueryProductsResponseBuilder getResponseBuilder() {
+        return (QueryProductsResponseBuilder) responseBuilder;
+    }
 }

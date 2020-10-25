@@ -1,6 +1,7 @@
 package ru.akirakozov.sd.refactoring.servlet;
 
 import ru.akirakozov.sd.refactoring.controller.ProductController;
+import ru.akirakozov.sd.refactoring.servlet.response.EmptyResponseBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -8,16 +9,13 @@ import java.io.IOException;
 
 public class ClearProductsServlet extends ProductServletBase {
     public ClearProductsServlet(ProductController productController) {
-        super(productController);
+        super(productController, new EmptyResponseBuilder());
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         productController.clear();
-
-        response.getWriter().println("<html><body></body></html>");
-        response.setContentType("text/html");
-        response.setStatus(HttpServletResponse.SC_OK);
+        ((EmptyResponseBuilder) responseBuilder).buildEmptyResponse(response);
     }
 
 }
