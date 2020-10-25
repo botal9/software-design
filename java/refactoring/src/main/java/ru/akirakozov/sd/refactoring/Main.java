@@ -4,9 +4,9 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import ru.akirakozov.sd.refactoring.servlet.AddProductServlet;
-import ru.akirakozov.sd.refactoring.servlet.ClearDatabaseServlet;
+import ru.akirakozov.sd.refactoring.servlet.ClearProductsServlet;
 import ru.akirakozov.sd.refactoring.servlet.GetProductsServlet;
-import ru.akirakozov.sd.refactoring.servlet.QueryServlet;
+import ru.akirakozov.sd.refactoring.servlet.QueryProductsServlet;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -36,12 +36,12 @@ public class Main {
 
         context.addServlet(new ServletHolder(new AddProductServlet()), "/add-product");
         context.addServlet(new ServletHolder(new GetProductsServlet()),"/get-products");
-        context.addServlet(new ServletHolder(new QueryServlet()),"/query");
+        context.addServlet(new ServletHolder(new QueryProductsServlet()),"/query");
 
         // For testing purposes.
         if (args.length > 0 && "test-env".equals(args[0])) {
             System.out.println("Running server in test environment.");
-            context.addServlet(new ServletHolder(new ClearDatabaseServlet()), "/clear");
+            context.addServlet(new ServletHolder(new ClearProductsServlet()), "/clear");
         }
 
         server.start();

@@ -11,7 +11,7 @@ import java.sql.Statement;
 /**
  * @author akirakozov
  */
-public class QueryServlet extends ProductServletBase {
+public class QueryProductsServlet extends ProductServletBase {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String command = request.getParameter("command");
