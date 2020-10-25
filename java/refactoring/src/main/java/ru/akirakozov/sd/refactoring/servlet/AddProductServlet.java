@@ -20,6 +20,10 @@ public class AddProductServlet extends ProductServletBase {
         String name = request.getParameter("name");
         long price = Long.parseLong(request.getParameter("price"));
         productController.addProduct(name, price);
-        responseBuilder.buildServletResponse(response, null);
+        getResponseBuilder().buildServletResponse(response, null);
+    }
+
+    private AddProductResponseBuilder getResponseBuilder() {
+        return (AddProductResponseBuilder) responseBuilder;
     }
 }

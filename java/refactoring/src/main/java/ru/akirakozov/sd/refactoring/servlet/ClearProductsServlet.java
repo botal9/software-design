@@ -15,7 +15,10 @@ public class ClearProductsServlet extends ProductServletBase {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         productController.clear();
-        ((EmptyResponseBuilder) responseBuilder).buildEmptyResponse(response);
+        getResponseBuilder().buildEmptyResponse(response);
     }
 
+    private EmptyResponseBuilder getResponseBuilder() {
+        return (EmptyResponseBuilder) responseBuilder;
+    }
 }
