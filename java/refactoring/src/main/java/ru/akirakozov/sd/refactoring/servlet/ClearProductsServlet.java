@@ -1,28 +1,21 @@
 package ru.akirakozov.sd.refactoring.servlet;
 
+import ru.akirakozov.sd.refactoring.controller.ProductController;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
+import java.io.IOException;
 
 public class ClearProductsServlet extends ProductServletBase {
+    public ClearProductsServlet(ProductController productController) {
+        super(productController);
+    }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
-        try {
-            try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db")) {
-                Statement stmt = c.createStatement();
-                stmt.executeUpdate("DELETE FROM PRODUCT");
-                stmt.close();
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        productController.clear();
 
-                response.getWriter().println("<html><body></body></html>");
-            }
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
+        response.getWriter().println("<html><body></body></html>");
         response.setContentType("text/html");
         response.setStatus(HttpServletResponse.SC_OK);
     }

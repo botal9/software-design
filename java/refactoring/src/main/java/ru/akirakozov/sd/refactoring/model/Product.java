@@ -2,17 +2,17 @@ package ru.akirakozov.sd.refactoring.model;
 
 public class Product implements Comparable<Product> {
     private String name;
-    private int price;
+    private long price;
 
     @Override
     public int compareTo(Product other) {
-        return this.price - other.getPrice();
+        return this.price - other.getPrice() < 0 ? -1 : 1;
     }
 
     public Product() {
     }
 
-    public Product(String name, int price) {
+    public Product(String name, long price) {
         this.name = name;
         this.price = price;
     }
@@ -25,7 +25,7 @@ public class Product implements Comparable<Product> {
         this.name = name;
     }
 
-    public int getPrice() {
+    public long getPrice() {
         return price;
     }
 
