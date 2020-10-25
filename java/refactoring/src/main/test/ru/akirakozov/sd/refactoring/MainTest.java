@@ -3,6 +3,7 @@ package ru.akirakozov.sd.refactoring;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.http.client.utils.URIBuilder;
 import org.jsoup.Jsoup;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -71,6 +72,7 @@ class MainTest {
     }
 
     @BeforeEach
+    @AfterEach
     void clearDB() {
         assertDoesNotThrow(() -> request(RequestType.CLEAR, List.of()));
     }
